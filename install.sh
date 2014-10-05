@@ -41,7 +41,6 @@ binaries=(
   hub
   scala
   sbt
-  julia
 )
 
 echo "Installing core binaries..."
@@ -87,7 +86,7 @@ brew cask alfred link
 
 echo "Linking configs to home folder..."
 ln -Fis .zshrc ~/.zshrc
-ln -Fis Preferences.sublime-settings ~/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings
+ln -Fis Preferences.sublime-settings "/Users/emre/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings"
 
 echo "Setting up default git editor as Sublime..."
 git config --global core.editor "subl -n -w"
