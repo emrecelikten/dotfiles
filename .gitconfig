@@ -1,0 +1,76 @@
+# Taken from https://github.com/uberspot/dotfiles/blob/master/.gitconfig
+
+[branch]
+    autosetuprebase = always
+[help]
+    autocorrect = 1
+[color]
+    ui = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red
+    new = green
+[color "status"]
+    added = bold green
+    changed = bold red
+    untracked = bold cyan
+[alias]
+    # via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+    snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+    snapshots = !git stash list --grep snapshot
+    #via http://stackoverflow.com/questions/5188320/how-can-i-get-a-list-of-git-branches-ordered-by-most-recent-commit
+    recent-branches = !git for-each-ref --count=5 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+    amend = commit --amend --reuse-message=HEAD   # amend your last commit
+    cm = commit -m
+    co = checkout
+    syncup = !git stash clear && git stash && git fetch upstream && git rebase upstream/master && git stash apply
+    syncma = !git stash clear && git stash && git pull --rebase origin master && git stash apply
+
+    # pretty one-line log with tags, branches and authors
+    ls = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate --date=short
+    # a verbose ls, shows changed files too
+    lsv = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate --date=short --numstat
+    
+    # List contributors with number of commits
+    contributors = shortlog --summary --numbered
+
+    # some resets without explanation
+    r = reset
+    r1 = reset HEAD^
+    r2 = reset HEAD^^
+    rh = reset --hard
+    rh1 = reset HEAD^ --hard
+    rh2 = reset HEAD^^ --hard
+
+    # basic shortcuts
+    cp = cherry-pick
+    s = status -s
+    cl = clone
+    ci = commit
+    co = checkout
+    br = branch·
+    d = diff
+    dc = diff --cached
+    ds = diff --staged
+
+    # stash shortcuts
+    sl = stash list
+    sa = stash apply
+    ss = stash save
+    clone = clone --recursive
+
+    # Show verbose output about tags, branches or remotes
+    tags = tag -l
+    branches = branch -a
+    remotes = remote -v
+[push]
+    default = simple
+[include]
+    path = .gitconfig.user
+[core]
+    excludesfile = ~/.gitignore_global

@@ -26,6 +26,9 @@ git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 chsh -s /bin/zsh
 
+# Tap python
+brew tap homebrew/python
+
 binaries=(
   make
   wget
@@ -41,15 +44,16 @@ binaries=(
   hub
   scala
   sbt
+  matplotlib # This might be necessary as anaconda fails to show plot otherwise
 )
 
-echo "Installing core binaries..."
+echo "Installing core binaries and libraries..."
 brew install ${binaries[@]}
 
 # Cask
 echo "Installing cask..."
 brew install caskroom/cask/brew-cask
-
+  
 brew tap caskroom/versions
 
 apps=(
@@ -85,8 +89,9 @@ echo "Linking cask applications to Alfred..."
 brew cask alfred link
 
 echo "Linking configs to home folder..."
-ln -Fis .zshrc ~/.zshrc
-ln -Fis Preferences.sublime-settings "/Users/emre/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings"
+ln -Fis $PWD/.zshrc ~/.zshrc
+ln -Fis $PWD/.alias ~/.alias
+ln -Fis $PWD/Preferences.sublime-settings "~/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings"
 
 echo "Setting up default git editor as Sublime..."
 git config --global core.editor "subl -n -w"

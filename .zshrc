@@ -51,6 +51,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+export DROPBOX=$HOME/Dropbox
 export PATH=$HOME/bin:$HOME/anaconda/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -76,10 +77,17 @@ fi
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
+source .alias
 alias zshconfig="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
+
 
 # Option-left and Option-right keys for moving between the words
 bindkey -e
 bindkey '^[[1;9C' forward-word
 bindkey '^[[1;9D' backward-word
+
+export DYLD_FALLBACK_LIBRARY_PATH=$DYLD_FALLBACK_LIBRARY_PATH:/Users/emre/anaconda/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/Developer/NVIDIA/CUDA-6.5/lib
+export CUDA_ROOT=/Developer/NVIDIA/CUDA-6.5
+export THEANO_FLAGS='cuda.root=/Developer/NVIDIA/CUDA-6.5,device=gpu,floatX=float32'
