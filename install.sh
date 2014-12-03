@@ -89,10 +89,8 @@ echo "Linking cask applications to Alfred..."
 brew cask alfred link
 
 echo "Linking configs to home folder..."
-ln -Fis $PWD/.zshrc ~/.zshrc
-ln -Fis $PWD/.alias ~/.alias
-ln -Fis $PWD/.gitconfig ~/.gitconfig
-ln -Fis $PWD/.gitignore_global ~/.gitignore_global
+for file in .*; do [[ -f "$file" ]] && ln -Fis $PWD/$file ~/$file; done
+
 ln -Fis $PWD/Preferences.sublime-settings "~/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings"
 
 echo "Setting up default git editor as Sublime..."
