@@ -74,3 +74,4 @@
     path = .gitconfig.user
 [core]
     excludesfile = ~/.gitignore_global
+    editor = subl -n -w
