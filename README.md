@@ -1,4 +1,4 @@
 dotfiles
 ========
 
-Personal dotfiles. No guarantees that they are working - have not tried it yet.
+Personal dotfiles. No guarantees that they are working, provided as is.
