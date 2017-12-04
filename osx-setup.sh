@@ -35,7 +35,6 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 sudo scutil --set ComputerName "ammit"
 sudo scutil --set HostName "ammit"
 sudo scutil --set LocalHostName "ammit"
-#sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "0x6D746873"
 
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
@@ -43,28 +42,19 @@ sudo nvram SystemAudioVolume=" "
 # Menu bar: disable transparency
 defaults write NSGlobalDomain AppleEnableMenuBarTransparency -bool false
 
-# Menu bar: hide the Time Machine, Volume, User, and Bluetooth icons
+# Menu bar: hide the Time Machine, User, and Bluetooth icons
 for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
   defaults write "${domain}" dontAutoLoad -array \
     "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-    "/System/Library/CoreServices/Menu Extras/Volume.menu" \
     "/System/Library/CoreServices/Menu Extras/User.menu"
 done
 defaults write com.apple.systemuiserver menuExtras -array \
   "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
   "/System/Library/CoreServices/Menu Extras/AirPort.menu" \
-  "/System/Library/CoreServices/Menu Extras/Battery.menu" \
   "/System/Library/CoreServices/Menu Extras/Clock.menu"
-
-# Set highlight color to green
-defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
 
 # Set sidebar icon size to medium
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
-
-# Always show scrollbars
-# defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
-# Possible values: `WhenScrolling`, `Automatic` and `Always`
 
 # Increase window resize speed for Cocoa applications
 defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
@@ -85,12 +75,6 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 # Remove duplicates in the “Open With” menu (also see `lscleanup` alias)
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
-
-# Disable Resume system-wide
-# defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
-
-# Disable the crash reporter
-#defaults write com.apple.CrashReporter DialogType -string "none"
 
 # Set Help Viewer windows to non-floating mode
 defaults write com.apple.helpviewer DevMode -bool true
@@ -113,12 +97,6 @@ defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 
 # Disable smart dashes as they’re annoying when typing code
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
-
-# Set a custom wallpaper image. `DefaultDesktop.jpg` is already a symlink, and
-# all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
-#rm -rf ~/Library/Application Support/Dock/desktoppicture.db
-#sudo rm -rf /System/Library/CoreServices/DefaultDesktop.jpg
-#sudo ln -s /path/to/your/image /System/Library/CoreServices/DefaultDesktop.jpg
 
 ###############################################################################
 # SSD-specific tweaks                                                         #
@@ -173,7 +151,7 @@ sudo systemsetup -settimezone "Europe/Helsinki" > /dev/null
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
 # Stop iTunes from responding to the keyboard media keys
-#launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
+launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
 
 ###############################################################################
 # Screen                                                                      #
@@ -206,7 +184,7 @@ sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutio
 # defaults write com.apple.finder QuitMenuItem -bool true
 
 # Finder: disable window animations and Get Info animations
-# defaults write com.apple.finder DisableAllAnimations -bool true
+defaults write com.apple.finder DisableAllAnimations -bool true
 
 # Set Desktop as the default location for new Finder windows
 # For other paths, use `PfLo` and `file:///full/path/here/`
@@ -485,30 +463,6 @@ defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnab
 # been indexed before.
 # Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
 sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
-# Change indexing order and disable some file types
-defaults write com.apple.spotlight orderedItems -array \
-  '{"enabled" = 1;"name" = "APPLICATIONS";}' \
-  '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
-  '{"enabled" = 1;"name" = "DIRECTORIES";}' \
-  '{"enabled" = 1;"name" = "PDF";}' \
-  '{"enabled" = 1;"name" = "FONTS";}' \
-  '{"enabled" = 0;"name" = "DOCUMENTS";}' \
-  '{"enabled" = 0;"name" = "MESSAGES";}' \
-  '{"enabled" = 0;"name" = "CONTACT";}' \
-  '{"enabled" = 0;"name" = "EVENT_TODO";}' \
-  '{"enabled" = 0;"name" = "IMAGES";}' \
-  '{"enabled" = 0;"name" = "BOOKMARKS";}' \
-  '{"enabled" = 0;"name" = "MUSIC";}' \
-  '{"enabled" = 0;"name" = "MOVIES";}' \
-  '{"enabled" = 0;"name" = "PRESENTATIONS";}' \
-  '{"enabled" = 0;"name" = "SPREADSHEETS";}' \
-  '{"enabled" = 0;"name" = "SOURCE";}'
-# Load new settings before rebuilding the index
-killall mds > /dev/null 2>&1
-# Make sure indexing is enabled for the main volume
-sudo mdutil -i on / > /dev/null
-# Rebuild the index from scratch
-sudo mdutil -E / > /dev/null
 
 ###############################################################################
 # Terminal & iTerm 2                                                          #

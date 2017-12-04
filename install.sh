@@ -26,6 +26,8 @@ git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 chsh -s /bin/zsh
 
+brew tap d12frosted/emacs-plus
+
 binaries=(
   wget
   vim
@@ -36,47 +38,66 @@ binaries=(
   tree
   ack
   git
+  pt
+  emacs-plus
 )
 
 echo "Installing core binaries and libraries..."
 brew install ${binaries[@]}
+
+brew linkapps
 
 # Cask
 apps=(
   alfred        # Spotlight replacement
   java
   dropbox
-  appcleaner    
+  appcleaner
   firefox
-  karabiner     # Key remapper
   iterm2
-  visual-studio-code
   vlc
-  nvalt         # Note taking software
   skype
   deluge
   pycharm
   intellij-idea
   clion
+  webstorm
   thunderbird
   mumble
-  mactex
+  basictex
   gimp
 )
 
-# Install apps to /Applications
-# Default is: /Users/$user/Applications
 echo "Installing applications using cask..."
-brew cask install --appdir="/Applications" ${apps[@]}
+brew cask install ${apps[@]}
+
+echo "Installing Scala..."
+brew install scala sbt
 
 echo "Linking cask applications to Alfred..."
 brew cask alfred link
 
+echo "Installing basic LaTeX packages..."
+packages=(
+  collection-fontsrecommended
+  enumitem
+  ucs
+  collectbox
+  adjustbox
+  xcolor
+  relsize
+  ifoddpage
+  algorithm2e
+  amsmath
+  tree-dvips
+)
+
+sudo tlmgr update --self
+sudo tlmgr install ${packages[@]}
+
 echo "Linking configs to home folder..."
 for file in .*; do [[ -f "$file" ]] && ln -Fis $PWD/$file ~/$file; done
 
-echo "Setting up default git editor as Sublime..."
-git config --global core.editor "code --wait"
-
-echo "Running OS X configuration..."
-sh osx-setup.sh
+echo "Setting up default git editor..."
+git config --global core.editor "vim"
+git config --global core.excludesfile ~/.gitignore_global
