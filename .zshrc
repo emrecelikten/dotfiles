@@ -60,6 +60,5 @@ alias e='emacsclient --no-wait --create-frame --socket-name instance1'
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/rsa_id"
-export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
