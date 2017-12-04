@@ -98,6 +98,9 @@ sudo tlmgr install ${packages[@]}
 echo "Linking configs to home folder..."
 for file in .*; do [[ -f "$file" ]] && ln -Fis $PWD/$file ~/$file; done
 
+echo "Getting spacemacs..."
+git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+
 echo "Setting up default git editor..."
 git config --global core.editor "vim"
 git config --global core.excludesfile ~/.gitignore_global
